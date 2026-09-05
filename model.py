@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
 from torch.utils.data import Dataset, DataLoader, random_split
 
 
@@ -155,21 +156,21 @@ def evaluate_performance(model, val_loader, device):
     model.eval()
     correct = 0
     total = 0
+    all_probs = []
+    all_labels = []
     with torch.no_grad():
         for x_batch, y_batch in val_loader:
             x_batch, y_batch = x_batch.to(device), y_batch.to(device)
-            # Get the logit output for each lightcurve
             y_pred = model(x_batch)
-            # Convert the logit outputs into probabilities between 0 and 1 using sigmoid
             y_prob = torch.sigmoid(y_pred.squeeze(1))
-            # This allows us to make a comparison with 0.5 to show if it thinks there is a planet or not (big number squashes into >0.5)
-            # .long converts Boolean into integers 1 or 0
             preds = (y_prob > 0.5).long()
-            # We compare this batch to the actual values to and add correct values to tally
             correct += (preds == y_batch.long()).sum().item()
-            # Add how many samples were in this batch to total
             total += y_batch.size(0)
-    # accuracy is samples correct/total samples
+
+            all_probs.extend(y_prob.cpu().numpy())
+            all_labels.extend(y_batch.cpu().numpy())
+
     acc = correct / total
-    print(f"Validation Accuracy: {acc:.4f}")
-    return acc
+    auc = roc_auc_score(all_labels, all_probs)
+    print(f"Validation Accuracy: {acc:.4f}, ROC-AUC: {auc:.4f}")
+    return acc, auc
