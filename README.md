@@ -10,9 +10,9 @@ A transformer encoder that classifies light curves as containing a genuine plane
 
 ## Architecture
 
-- Each light curve is treated as a sequence of flux values. Every timestep is projected from 1D into `d_model`-dimensional space with a linear embedding layer.
+- Each light curve is treated as a sequence of flux values. Every timestep is projected from 1D into d_model-dimensional space with a linear embedding layer.
 - Standard sinusoidal positional encoding (as in the original Transformer paper) is added so the model retains information about each value's position in the sequence.
-- A `TransformerEncoder` (2 layers, 4 attention heads, `d_model=128`) processes the sequence.
+- A TransformerEncoder (2 layers, 4 attention heads, d_model=128) processes the sequence.
 - The output sequence is mean-pooled across time into a single vector per light curve, then passed through a linear layer producing one logit for binary classification (transit / no transit).
 
 ## Data pipeline
@@ -22,8 +22,8 @@ A transformer encoder that classifies light curves as containing a genuine plane
 **TESS (raw, extended experiment).**
 - Target list pulled from ExoFOP-TESS's TOI catalogue, filtered to TESS's prime mission (sectors ≤ 21) and to confirmed/false-positive labels only.
 - Positive and negative classes are balanced by random sampling.
-- Light curves are downloaded in parallel (`ThreadPoolExecutor`, with retry logic) directly from MAST via `lightkurve`, then cleaned — NaN removal, 5σ outlier clipping, normalisation.
-- Train/val/test splits are stratified **by star** (`tic_id`), not by individual light curve, so the same star's data can't leak across splits.
+- Light curves are downloaded in parallel (ThreadPoolExecutor, with retry logic) directly from MAST via lightkurve, then cleaned — NaN removal, 5σ outlier clipping, normalisation.
+- Train/val/test splits are stratified **by star** (tic_id), not by individual light curve, so the same star's data can't leak across splits.
 
 ## Project structure
 
