@@ -27,31 +27,28 @@ A transformer encoder that classifies light curves as containing a genuine plane
 
 ## Project structure
 
-```
+
 .
 ├── data_pipeline.py   # Fetching, downloading, cleaning, and preparing light curve data
 ├── model.py           # Dataset class, positional encoding, transformer model, training/eval loop
 ├── main.py            # Entry point - swap between download / dataset-diff / training stages
 └── .gitignore
-```
+
 
 ## Setup
 
-```bash
+
 pip install torch pandas scikit-learn lightkurve astroquery tqdm
-```
+
 
 ## Usage
 
-This project has three separate stages, all driven from `main.py`. Only one stage runs by default — open `main.py` and change which function `main()` calls:
+This project has three separate stages, all driven from main.py. Only one stage runs by default — open main.py and change which function main() calls:
 
-- `run_download()` — pulls the TOI target list, balances classes, and downloads TESS light curves.
-- `run_star_diff_check()` — checks for Kepler stars not already represented in the working dataset.
-- `run_training()` — trains and evaluates the transformer.
+- run_download() — pulls the TOI target list, balances classes, and downloads TESS light curves.
+- run_star_diff_check() — checks for Kepler stars not already represented in the working dataset.
+- run_training() — trains and evaluates the transformer.
 
-```bash
-python main.py
-```
 
 ## Challenges and lessons learned
 
