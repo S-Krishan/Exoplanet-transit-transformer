@@ -1,0 +1,18 @@
+# Generated data files (produced by data_pipeline.py, not source code)
+*.csv
+data/
+*.fits
+
+# Model checkpoints
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# IDE / OS
+.idea/
+.DS_Store
