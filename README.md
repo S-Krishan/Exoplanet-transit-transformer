@@ -1,4 +1,4 @@
-# Exoplanet Transit Detection using a Transformer Architecture
+## Exoplanet Transit Detection using a Transformer Architecture
 
 A transformer encoder that classifies light curves as containing a genuine planetary transit or not — trained first on preprocessed Kepler data, then extended to raw TESS observations pulled directly from NASA's MAST archive.
 
